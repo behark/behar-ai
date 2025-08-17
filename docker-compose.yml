@@ -27,19 +27,21 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.fastapi
     container_name: ai-behar-api
     ports:
       - "${API_PORT:-8000}:8000"
     environment:
       - API_HOST=0.0.0.0
-      - API_PORT=8000
+      - PORT=8000
       - DATABASE_URL=postgresql://ai_behar_user:${DB_PASSWORD:-your_secure_password_here}@db:5432/dimensional_ai_prod
       - OLLAMA_BASE_URL=http://ollama:11434
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379/0
       - ENVIRONMENT=${ENVIRONMENT:-production}
       - DEBUG=false
+      - CORS_ALLOW_ORIGIN=${CORS_ALLOW_ORIGIN:-*}
     volumes:
       - ./databases:/app/databases
       - ./logs:/app/logs
@@ -51,6 +53,11 @@ services:
       ollama:
         condition: service_started
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - ai-behar-network
 

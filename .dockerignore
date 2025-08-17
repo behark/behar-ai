@@ -1,12 +1,72 @@
-# Exclude unnecessary files from Docker build
+# Exclude local-only files from Docker build context
+.env
+.env.*
+!.env.example
+!.env.production
+
+# Python cache and venv
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+venv/
+.venv/
+
+# Logs and databases
+logs/
+**/*.log
+databases/
+*.db
+*.sqlite*
+
+# Node / frontend
+node_modules/
+frontend/
+
+# Large/local directories
+archived_data/
+development/
+development_data/
+legacy_*/
+monitoring/**/data/
+llm/
+
+# Docker volumes
+*-data/
+prometheus-data/
+grafana-data/
+redis-data/
+openwebui-data/
+ollama-data/
+
+# VCS and IDE
 .git/
 .gitignore
-README.md
-DEPLOYMENT_GUIDE.md
-.env.example
-docker-compose.yml
-railway-deploy.sh
-*.md
-*.log
-node_modules/
-__pycache__/
+.docker/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+backups/
+
+# SSL certificates
+*.crt
+*.key
+ssl/
+certs/
+
+# Documentation and configs that aren't needed in container
+README*.md
+DEPLOYMENT*.md
+*.toml
+deploy-*.sh
+monitoring/
