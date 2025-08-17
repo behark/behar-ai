@@ -1,0 +1,7 @@
+# Ultra-minimal requirements for Railway deployment
+# Only absolute essentials to drastically reduce image size
+
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+httpx==0.25.2
+pydantic==2.5.0
