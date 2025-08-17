@@ -1,0 +1,107 @@
+# AI Platform Configuration
+# Core platform settings and parameters
+
+[platform]
+name = "Dimensional AI Platform"
+version = "2.0.0"
+environment = "production"
+debug = false
+log_level = "INFO"
+
+[orchestrator]
+max_concurrent_tasks = 50
+task_timeout = 300
+health_check_interval = 30
+auto_restart = true
+
+[agents]
+# Trading Agent Settings
+[agents.trading]
+enabled = true
+initial_balance = 100000.0
+max_position_size = 0.1
+risk_tolerance = "medium"
+trading_frequency = "high"
+markets = ["stocks", "crypto", "forex"]
+
+# Voice Interface Settings
+[agents.voice]
+enabled = true
+language = "en"
+confidence_threshold = 0.7
+response_timeout = 5.0
+text_to_speech = true
+
+# Meta Agent Controller Settings
+[agents.meta_controller]
+enabled = true
+max_agents = 10
+load_balancing = true
+performance_monitoring = true
+
+[dashboard]
+enabled = true
+port = 3000
+update_frequency = 5
+websocket_enabled = true
+real_time_updates = true
+
+[database]
+host = "db"
+port = 5432
+name = "dimensional_ai_prod"
+user = "ai_behar_user"
+password = "${DB_PASSWORD:-your_secure_password_here}"
+max_connections = 20
+
+[api]
+host = "0.0.0.0"
+port = 8000
+cors_enabled = true
+rate_limiting = true
+api_key_required = false
+
+[security]
+encryption_enabled = true
+jwt_secret = "${JWT_SECRET:-your_jwt_secret_here}"
+session_timeout = 3600
+two_factor_auth = false
+
+[integrations]
+# External API configurations
+[integrations.market_data]
+provider = "alpha_vantage"
+api_key = "${ALPHA_VANTAGE_API_KEY:-your_api_key_here}"
+rate_limit = 5
+
+[integrations.llm]
+provider = "ollama"
+model = "llama3.1"
+base_url = "http://ollama:11434"
+max_tokens = 4096
+
+[monitoring]
+health_checks = true
+performance_metrics = true
+error_tracking = true
+log_aggregation = true
+prometheus_enabled = true
+grafana_enabled = true
+
+[deployment]
+container_orchestration = "docker"
+scaling = "auto"
+backup_enabled = true
+backup_frequency = "daily"
+
+[redis]
+host = "redis"
+port = 6379
+db = 0
+max_connections = 10
+
+[websocket]
+enabled = true
+port = 8001
+cors_allowed_origins = ["*"]
+heartbeat_interval = 30

@@ -161,6 +161,139 @@ services:
     profiles:
       - monitoring
 
+  # Real-time Dashboard with WebSocket
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: ai-behar-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=http://api:8000
+      - WEBSOCKET_URL=ws://websocket:8001
+      - REDIS_URL=redis://redis:6379/0
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+    depends_on:
+      - api
+      - redis
+      - websocket
+    restart: unless-stopped
+    networks:
+      - ai-behar-network
+
+  # WebSocket Service for Real-time Updates
+  websocket:
+    build:
+      context: .
+      dockerfile: Dockerfile.websocket
+    container_name: ai-behar-websocket
+    ports:
+      - "8001:8001"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CORS_ORIGINS=${CORS_ALLOW_ORIGIN:-*}
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - ai-behar-network
+
+  # Trading Agent Service
+  trading-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.trading
+    container_name: ai-behar-trading
+    environment:
+      - API_URL=http://api:8000
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://ai_behar_user:${DB_PASSWORD:-your_secure_password_here}@db:5432/dimensional_ai_prod
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY:-your_api_key_here}
+      - TRADING_ENABLED=${TRADING_ENABLED:-false}
+      - INITIAL_BALANCE=${INITIAL_BALANCE:-100000}
+    volumes:
+      - ./platform-config.toml:/app/config.toml:ro
+      - ./logs:/app/logs
+    depends_on:
+      - api
+      - redis
+      - db
+    restart: unless-stopped
+    networks:
+      - ai-behar-network
+    profiles:
+      - agents
+
+  # Voice Interface Service
+  voice-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.voice
+    container_name: ai-behar-voice
+    ports:
+      - "8002:8002"
+    environment:
+      - API_URL=http://api:8000
+      - REDIS_URL=redis://redis:6379/0
+      - VOICE_ENABLED=${VOICE_ENABLED:-true}
+    volumes:
+      - ./platform-config.toml:/app/config.toml:ro
+      - ./audio:/app/audio
+    depends_on:
+      - api
+      - redis
+    restart: unless-stopped
+    networks:
+      - ai-behar-network
+    profiles:
+      - agents
+
+  # Agent Orchestrator / Meta Controller
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.orchestrator
+    container_name: ai-behar-orchestrator
+    environment:
+      - API_URL=http://api:8000
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://ai_behar_user:${DB_PASSWORD:-your_secure_password_here}@db:5432/dimensional_ai_prod
+      - MAX_AGENTS=${MAX_AGENTS:-10}
+      - HEALTH_CHECK_INTERVAL=${HEALTH_CHECK_INTERVAL:-30}
+    volumes:
+      - ./platform-config.toml:/app/config.toml:ro
+      - ./logs:/app/logs
+    depends_on:
+      - api
+      - redis
+      - db
+    restart: unless-stopped
+    networks:
+      - ai-behar-network
+    profiles:
+      - agents
+
+  # Backup Service
+  backup:
+    image: postgres:15-alpine
+    container_name: ai-behar-backup
+    environment:
+      - PGPASSWORD=${DB_PASSWORD:-your_secure_password_here}
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup.sh:/backup.sh:ro
+    command: ["sh", "-c", "while true; do sleep 24h; /backup.sh; done"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - ai-behar-network
+    profiles:
+      - backup
+
 volumes:
   redis-data:
   ollama-data:

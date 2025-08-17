@@ -1,0 +1,27 @@
+# Orchestrator Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.orchestrator.txt .
+RUN pip install --no-cache-dir -r requirements.orchestrator.txt
+
+# Copy orchestrator
+COPY core/orchestrator/ ./core/orchestrator/
+COPY core/shared/ ./core/shared/
+COPY platform-config.toml ./config.toml
+
+# Create directories
+RUN mkdir -p logs
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+CMD ["python", "-m", "core.orchestrator.main"]

@@ -1,0 +1,19 @@
+# Dashboard Service Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy dashboard source
+COPY src/dashboard/ ./src/
+COPY public/ ./public/
+
+# Build the dashboard
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
