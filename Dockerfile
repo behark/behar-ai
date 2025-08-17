@@ -4,16 +4,8 @@ FROM ghcr.io/open-webui/open-webui:main
 # Set working directory
 WORKDIR /app
 
-# Copy only necessary configuration files (no personal data)
-COPY railway.toml ./
-COPY railway-deploy.sh ./
-COPY DEPLOYMENT_GUIDE.md ./
-
 # Create data directory
 RUN mkdir -p /app/backend/data
-
-# Set permissions
-RUN chmod +x railway-deploy.sh
 
 # Expose port
 EXPOSE 8080
