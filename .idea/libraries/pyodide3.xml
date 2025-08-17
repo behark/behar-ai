@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="pyodide3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/open-webui/build/pyodide/python_stdlib.zip!/" />
+      <root url="jar://$PROJECT_DIR$/open-webui/build/pyodide/openblas-0.3.26.zip!/" />
+      <root url="jar://$PROJECT_DIR$/open-webui/build/pyodide/openssl-1.1.1w.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
