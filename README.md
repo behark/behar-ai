@@ -7,12 +7,21 @@ A production-ready Open WebUI setup with multiple LLM support.
 ### Railway (Recommended)
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template)
 
+**Option 1: Standard Deployment**
 ```bash
 # Clone and deploy
 git clone https://github.com/behark/behar-ai.git
 cd behar-ai
 railway login
 railway init
+railway up
+```
+
+**Option 2: If build fails, try alternative config**
+```bash
+# Rename files to use alternative Dockerfile
+mv railway-alt.toml railway.toml
+# Then deploy normally
 railway up
 ```
 
@@ -23,7 +32,7 @@ git clone https://github.com/behark/behar-ai.git
 cd behar-ai
 
 # Build and run
-docker build -f Dockerfile.deploy -t behar-ai .
+docker build -t behar-ai .
 docker run -p 8080:8080 behar-ai
 ```
 
@@ -32,7 +41,7 @@ docker run -p 8080:8080 behar-ai
 # On your VPS
 git clone https://github.com/behark/behar-ai.git
 cd behar-ai
-cp .env.deploy .env
+cp .env.example .env
 # Edit .env with your settings
 nano .env
 
