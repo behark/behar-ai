@@ -1,15 +1,46 @@
-# Behar AI - Open WebUI Deployment
+# Behar AI - Production Open WebUI Platform
 
-A production-ready Open WebUI setup with multiple LLM support.
+A complete production-ready AI platform with Open WebUI, PostgreSQL, Redis, monitoring, and 7 LLM models.
+
+## 🌟 Features
+
+- 🤖 **Open WebUI** - Modern chat interface
+- �️ **PostgreSQL** - Production database
+- ⚡ **Redis** - High-performance caching
+- 🐋 **Docker** - Containerized deployment
+- 📊 **Monitoring** - Prometheus + Grafana
+- 🔒 **Security** - User management & API keys
+- 📈 **Analytics** - Usage tracking
+- 🔄 **Backup** - Automated backups
 
 ## 🚀 Quick Deploy
 
-### Railway (Recommended)
+### Production Setup (Recommended)
+```bash
+# Clone repository
+git clone https://github.com/behark/behar-ai.git
+cd behar-ai
+
+# Copy and customize environment
+cp .env.production .env
+nano .env  # Edit with your secure passwords
+
+# Deploy full stack
+./deploy-production.sh
+```
+
+**Services will be available at:**
+- 🌐 **Open WebUI**: http://localhost:8080
+- ⚡ **API**: http://localhost:8000
+- 🤖 **Ollama**: http://localhost:11434
+- 📈 **Prometheus**: http://localhost:9090
+- 📊 **Grafana**: http://localhost:3001 (admin/admin)
+
+### Railway (Simple Deploy)
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template)
 
-**Option 1: Standard Deployment**
 ```bash
-# Clone and deploy
+# For simple Railway deployment
 git clone https://github.com/behark/behar-ai.git
 cd behar-ai
 railway login
@@ -17,36 +48,13 @@ railway init
 railway up
 ```
 
-**Option 2: If build fails, try alternative config**
+### Docker (Minimal)
 ```bash
-# Rename files to use alternative Dockerfile
-mv railway-alt.toml railway.toml
-# Then deploy normally
-railway up
-```
-
-### Docker (Self-hosted)
-```bash
-# Clone repository
+# Quick Docker setup
 git clone https://github.com/behark/behar-ai.git
 cd behar-ai
-
-# Build and run
 docker build -t behar-ai .
 docker run -p 8080:8080 behar-ai
-```
-
-### VPS Deployment
-```bash
-# On your VPS
-git clone https://github.com/behark/behar-ai.git
-cd behar-ai
-cp .env.example .env
-# Edit .env with your settings
-nano .env
-
-# Run with Docker Compose
-docker-compose up -d
 ```
 
 ## 🛠️ Configuration

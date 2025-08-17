@@ -1,0 +1,50 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # AI Behar API
+  - job_name: 'ai-behar-api'
+    static_configs:
+      - targets: ['api:8000']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Open WebUI
+  - job_name: 'open-webui'
+    static_configs:
+      - targets: ['openwebui:8080']
+    metrics_path: '/health'
+    scrape_interval: 30s
+
+  # Ollama
+  - job_name: 'ollama'
+    static_configs:
+      - targets: ['ollama:11434']
+    scrape_interval: 30s
+
+  # PostgreSQL
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['db:5432']
+    scrape_interval: 30s
+
+  # Redis
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 30s
+
+  # Node exporter (if added)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['localhost:9100']

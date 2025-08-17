@@ -1,33 +1,35 @@
 # Files safe for public GitHub repository
 # NO PERSONAL DATA INCLUDED
 
-# Deployment files
-railway.toml
-railway-deploy.sh
-Dockerfile.deploy
-docker-compose.deploy.yml
-.env.deploy
-README.deploy.md
-DEPLOYMENT_GUIDE.md
-
-# Exclude sensitive files
+# Environment files (contain secrets)
 .env
 .env.local
+.env.production
 *.key
 *.pem
 *.p12
+
+# Database files
 database.db
 *.sqlite
 *.sqlite3
+databases/
+postgres-data/
 
-# Exclude personal data
+# Personal data directories
 **/data/
 **/logs/
 **/backups/
 **/private/
 **/secrets/
-**/.env
-**/.env.local
+
+# Docker volumes
+*-data/
+prometheus-data/
+grafana-data/
+redis-data/
+openwebui-data/
+ollama-data/
 
 # Standard exclusions
 node_modules/
@@ -43,3 +45,19 @@ Thumbs.db
 *.development
 *.local
 *.test
+
+# Monitoring data
+monitoring/data/
+grafana/data/
+prometheus/data/
+
+# SSL certificates
+*.crt
+*.key
+ssl/
+certs/
+
+# Backup files
+*.bak
+*.backup
+backups/
