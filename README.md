@@ -15,45 +15,32 @@ A complete production-ready AI platform with Open WebUI, PostgreSQL, Redis, moni
 
 ## 🚀 Quick Deploy
 
-### Production Setup (Recommended)
-```bash
-# Clone repository
-git clone https://github.com/behark/behar-ai.git
-cd behar-ai
-
-# Copy and customize environment
-cp .env.production .env
-nano .env  # Edit with your secure passwords
-
-# Deploy full stack
-./deploy-production.sh
-```
-
-**Services will be available at:**
-- 🌐 **Open WebUI**: http://localhost:8080
-- ⚡ **API**: http://localhost:8000
-- 🤖 **Ollama**: http://localhost:11434
-- 📈 **Prometheus**: http://localhost:9090
-- 📊 **Grafana**: http://localhost:3001 (admin/admin)
-
-### Railway (Simple Deploy)
+### Railway (Recommended)
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template)
 
+**Step 1: Choose deployment mode**
 ```bash
-# For simple Railway deployment
 git clone https://github.com/behark/behar-ai.git
 cd behar-ai
+./setup-deployment.sh  # Choose your option
+```
+
+**Step 2: Deploy to Railway**
+```bash
 railway login
 railway init
 railway up
 ```
 
-### Docker (Minimal)
+**Deployment Options:**
+1. **Simple WebUI** - Open WebUI only (2 min setup)
+2. **Custom Platform** - FastAPI + WebUI (5 min setup)
+3. **Full Production** - All services (15 min setup)
+
+### Local Development
 ```bash
 # Quick Docker setup
-git clone https://github.com/behark/behar-ai.git
-cd behar-ai
-docker build -t behar-ai .
+docker build -f Dockerfile.railway -t behar-ai .
 docker run -p 8080:8080 behar-ai
 ```
 

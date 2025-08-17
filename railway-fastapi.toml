@@ -1,7 +1,7 @@
 # Railway configuration for FastAPI deployment
 [build]
 builder = "dockerfile"
-dockerfilePath = "Dockerfile.fastapi"
+dockerfilePath = "Dockerfile.railway"
 
 [deploy]
 healthcheckPath = "/health"
@@ -12,7 +12,7 @@ restartPolicyType = "on_failure"
 ENVIRONMENT = "production"
 DEBUG = "false"
 CORS_ALLOW_ORIGIN = "*"
-PORT = "8000"
+# PORT is automatically set by Railway - don't override it
 DATABASE_URL = { generate = true }
 REDIS_URL = { generate = true }
 OLLAMA_BASE_URL = "http://localhost:11434"

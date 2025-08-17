@@ -1,0 +1,24 @@
+# Minimal dependencies for Railway deployment
+# Optimized for fast deployment and reduced build time
+
+# Core FastAPI
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+starlette==0.27.0
+
+# HTTP client for Ollama integration
+httpx==0.25.2
+requests==2.31.0
+
+# Environment configuration
+python-dotenv==1.0.0
+
+# Security (minimal)
+python-jose[cryptography]==3.3.0
+
+# Response formatting
+python-multipart==0.0.6
+
+# JSON handling
+orjson==3.9.10
